@@ -3,46 +3,134 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Group posts by category
+const postsByCategory = posts.reduce((acc, post) => {
+	const category = post.data.category || 'Uncategorized';
+	if (!acc[category]) {
+		acc[category] = [];
+	}
+	acc[category].push(post);
+	return acc;
+}, {} as Record<string, typeof posts>);
+
+const categories = Object.keys(postsByCategory).sort();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.post-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+				gap: 2rem;
+				margin-top: 2rem;
+			}
+			.post-card {
+				background: rgb(var(--gray-light));
+				border-radius: 8px;
+				padding: 1.5rem;
+				transition: transform 0.2s, box-shadow 0.2s;
+				border-left: 4px solid var(--accent);
+			}
+			.post-card:hover {
+				transform: translateY(-4px);
+				box-shadow: var(--box-shadow);
+			}
+			.post-card h3 {
+				margin-top: 0;
+				margin-bottom: 0.5rem;
+			}
+			.post-card a {
+				text-decoration: none;
+				color: rgb(var(--black));
+			}
+			.post-card a:hover {
+				color: var(--accent);
+			}
+			.post-meta {
+				font-size: 0.875rem;
+				color: rgb(var(--gray));
+				margin-bottom: 1rem;
+			}
+			.post-description {
+				color: rgb(var(--gray-dark));
+				margin-bottom: 1rem;
+				line-height: 1.6;
+			}
+			.post-tags {
+				display: flex;
+				gap: 0.5rem;
+				flex-wrap: wrap;
+			}
+			.tag {
+				display: inline-block;
+				background: var(--accent);
+				color: white;
+				padding: 0.25rem 0.75rem;
+				border-radius: 12px;
+				font-size: 0.75rem;
+				text-decoration: none;
+			}
+			.category-section {
+				margin-bottom: 3rem;
+			}
+			.category-title {
+				display: inline-block;
+				padding-bottom: 0.5rem;
+				border-bottom: 3px solid var(--accent);
+				margin-bottom: 2rem;
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
+			<h1>Cafine Blog</h1>
+			<p>GPU 아키텍처와 컴퓨트 셰이더에 대한 기술 블로그입니다.</p>
+			
+			{posts.length > 0 ? (
+				<div>
+					{categories.map((category) => (
+						<section class="category-section">
+							<h2 class="category-title">{category}</h2>
+							<div class="post-grid">
+								{postsByCategory[category].map((post) => (
+									<article class="post-card">
+										<h3>
+											<a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+										</h3>
+										<div class="post-meta">
+											{post.data.pubDate.toLocaleDateString('ko-KR', { 
+												year: 'numeric', 
+												month: 'long', 
+												day: 'numeric' 
+											})}
+										</div>
+										<p class="post-description">{post.data.description}</p>
+										{post.data.tags && post.data.tags.length > 0 && (
+											<div class="post-tags">
+												{post.data.tags.map((tag) => (
+													<span class="tag">{tag}</span>
+												))}
+											</div>
+										)}
+									</article>
+								))}
+							</div>
+						</section>
+					))}
+				</div>
+			) : (
+				<p>곧 포스트가 추가될 예정입니다.</p>
+			)}
 		</main>
 		<Footer />
 	</body>
