@@ -9,11 +9,12 @@ import rehypeKatex from 'rehype-katex';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://jodsol.github.io',
+	base: '/cafine.github.io',
 	markdown: {
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeMermaid, rehypeKatex],
 	},
-	site: 'https://example.com',
 	integrations: [mdx(), sitemap()],
 	fonts: [
 		{
