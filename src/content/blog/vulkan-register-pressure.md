@@ -1,5 +1,5 @@
 ---
-title: "RTR Chapter 3 Validation: Register Pressure는 정말 GPU 성능을 떨어뜨릴까?"
+title: "Register Pressure는 정말 GPU 성능을 떨어뜨릴까?"
 description: "Vulkan compute shader와 timestamp query로 register pressure가 GPU 실행 시간에 어떤 영향을 주는지 직접 측정합니다."
 pubDate: 2026-06-05
 category: "GPU Architecture Lab"
