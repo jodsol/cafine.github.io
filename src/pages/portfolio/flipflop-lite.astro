@@ -1,0 +1,97 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+import flipflopDashboardImage from '../../assets/portfolio/flipflop-dashboard.png';
+import flipflopDemoImage from '../../assets/portfolio/flipflop-demo.png';
+import flipflopOverviewImage from '../../assets/portfolio/flipflop-overview.png';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const platformServices = ['Main Website', 'Developer Docs', 'Live Streaming / Conference Demo', 'SaaS Dashboard'];
+const chatCapabilities = ['WebSocket 연결 및 메시지 송수신', '채팅 이벤트 처리와 영상 서비스 연동', 'Live Streaming용 다수 시청자 채팅', 'Conference용 다자간 채팅', '관리자 채팅 및 과거 이력 조회'];
+const dashboardCapabilities = ['고객사별 방송 설정과 운영 정보 관리', '실시간·누적 시청자 및 채팅 통계', '참여자·시청자 조회와 관리자 메시지', '방송별 채팅 데이터와 서비스 로그 조회'];
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<BaseHead title={`FlipFlop Lite | ${SITE_TITLE}`} description="Video API/SDK, DRM, WebSocket Chat SDK와 운영 Dashboard를 개발한 B2B Video SaaS 프로젝트" />
+		<style>
+			.project-header { display: grid; gap: 1.25rem; margin-bottom: 2.5rem; }
+			.back-link { width: fit-content; font-weight: 700; text-decoration: none; }
+			.eyebrow { color: var(--accent); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+			.lead { max-width: 64ch; margin: 0; font-size: 1.15rem; }
+			.hero-image { width: 100%; border: 1px solid rgba(var(--gray), 0.2); border-radius: 16px; box-shadow: var(--box-shadow); }
+			.section-image { width: 100%; margin-top: 1rem; border: 1px solid rgba(var(--gray), 0.16); border-radius: 16px; background: white; }
+			.meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0 3rem; }
+			.meta-card { padding: 1rem; border: 1px solid rgba(var(--gray), 0.2); border-radius: 12px; background: white; }
+			.meta-card dt { color: rgb(var(--gray)); font-size: 0.85rem; font-weight: 700; }
+			.meta-card dd { margin: 0.25rem 0 0; color: rgb(var(--black)); font-weight: 700; }
+			.section { margin-top: 3.5rem; }
+			.section > p { max-width: 66ch; }
+			.feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 0; list-style: none; }
+			.feature-grid li { padding: 1rem; border-left: 3px solid var(--accent); background: white; }
+			.flow { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; padding: 1.25rem; border-radius: 12px; background: rgb(var(--gray-light)); }
+			.flow span { padding: 0.35rem 0.65rem; border-radius: 999px; background: white; font-weight: 700; }
+			.flow b { color: var(--accent); }
+			.impact { padding: 1.5rem; border: 1px solid rgba(35, 55, 255, 0.16); border-radius: 14px; background: linear-gradient(135deg, #edf1ff, #fff); }
+			@media (max-width: 620px) { .meta-grid, .feature-grid { grid-template-columns: 1fr; } }
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<article>
+				<header class="project-header">
+					<a class="back-link" href={`${base}/portfolio/`}>← Portfolio</a>
+					<span class="eyebrow">B2B Video SaaS / Frontend</span>
+					<div>
+						<h1>FlipFlop Lite</h1>
+						<p class="lead">라이브 스트리밍과 화상회의를 제공하는 B2B Video SaaS에서 영상 기능 연동, 실시간 Chat SDK, 고객사 운영 Dashboard를 포함한 웹 서비스 전반을 개발했습니다.</p>
+					</div>
+				</header>
+
+				<img class="hero-image" src={flipflopOverviewImage.src} alt="FlipFlop Lite의 Video SaaS Platform 전체 구성" />
+
+				<dl class="meta-grid">
+					<div class="meta-card"><dt>기간</dt><dd>2021.12.01 - 2023.02.03</dd></div>
+					<div class="meta-card"><dt>역할</dt><dd>Frontend Developer</dd></div>
+					<div class="meta-card"><dt>핵심 기술</dt><dd>Video SDK, DRM, WebSocket</dd></div>
+				</dl>
+
+				<section class="section">
+					<h2>SaaS Web Platform</h2>
+					<p>고객사와 개발자가 서비스 소개부터 기능 테스트, API/SDK 연동, 방송 운영까지 진행할 수 있도록 제품 전반의 웹 접점을 개발했습니다. 단순 화면 구현이 아니라, 실제 영상 기능을 테스트하고 운영할 수 있는 SaaS 경험을 만드는 역할이었습니다.</p>
+					<ul class="feature-grid">{platformServices.map((service) => <li>{service}</li>)}</ul>
+					<img class="section-image" src={flipflopDemoImage.src} alt="FlipFlop Lite의 Video Stream과 Video Conference Demo 화면" loading="lazy" />
+				</section>
+
+				<section class="section">
+					<h2>Video API / SDK Integration & DRM</h2>
+					<p>기존 영상 API/SDK를 웹 애플리케이션에 연결하고, 서비스 상태를 UI와 연동했습니다. Live Streaming과 Conference Demo에서 실제 영상 기능을 사용할 수 있도록 구현했으며, 보호 콘텐츠 재생을 위한 DRM 기능도 클라이언트 재생 흐름에 통합했습니다.</p>
+					<div class="flow"><span>Video API / SDK</span><b>→</b><span>DRM</span><b>→</b><span>Web Client UI</span><b>→</b><span>Demo / Dashboard</span></div>
+				</section>
+
+				<section class="section">
+					<h2>WebSocket 기반 Chat SDK</h2>
+					<p>서비스 개발자가 소켓 연결과 메시지 통신을 직접 구현하지 않아도 채팅 기능을 적용할 수 있도록 Chat SDK를 만들었습니다. 일대다 시청 구조의 Live Streaming과 다자간 참여 구조의 Conference를 구분해 각각의 서비스 흐름에 맞는 채팅 기능을 제공했습니다.</p>
+					<ul class="feature-grid">{chatCapabilities.map((capability) => <li>{capability}</li>)}</ul>
+				</section>
+
+				<section class="section">
+					<h2>방송 운영 Dashboard</h2>
+					<p>고객사별 방송 설정과 운영 정보를 관리하고, 실시간 영상·채팅·참여자·통계를 한 화면에서 확인하는 B2B 운영 도구를 개발했습니다. 운영자가 방송 상태를 파악하고 문제를 추적할 수 있도록 채팅과 로그 조회 기능도 함께 구성했습니다.</p>
+					<ul class="feature-grid">{dashboardCapabilities.map((capability) => <li>{capability}</li>)}</ul>
+					<img class="section-image" src={flipflopDashboardImage.src} alt="FlipFlop Lite 실시간 방송 운영 Dashboard" loading="lazy" />
+				</section>
+
+				<section class="section">
+					<h2>핵심 기여</h2>
+					<div class="impact"><strong>영상 서비스 연동 → 실시간 통신 → SaaS 운영 도구</strong>로 이어지는 B2B Video SaaS의 클라이언트 영역을 폭넓게 담당했습니다. 영상 API/SDK와 DRM을 실제 사용자 경험으로 연결하고, Chat SDK와 Dashboard를 통해 고객사의 테스트와 운영까지 지원했습니다.</div>
+				</section>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

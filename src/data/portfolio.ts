@@ -26,8 +26,20 @@ export const portfolioItems: PortfolioItem[] = [
 			'Live/VOD 플레이어와 WebSocket 기반 실시간 채팅·인터랙션을 개발하고, 장시간 방송의 대량 채팅 렌더링 성능을 개선했습니다.',
 		href: '/portfolio/shora/',
 		kind: 'Live Commerce',
-		period: '2020.08 - 2021.02',
+		period: '2021.08 - 2022.02',
 		tags: ['JavaScript', 'WebSocket', 'jQuery', 'Performance'],
-		image: '/shora.png',
+		image: shoraImage.src,
+	},
+	{
+		title: 'FlipFlop Lite',
+		summary:
+			'영상 API/SDK 연동, DRM, WebSocket 기반 Chat SDK, 방송 운영 Dashboard까지 B2B Video SaaS의 클라이언트와 운영 영역을 개발했습니다.',
+		href: '/portfolio/flipflop-lite/',
+		kind: 'B2B Video SaaS',
+		period: '2021.12 - 2023.02',
+		tags: ['Video SDK', 'WebSocket', 'DRM', 'SaaS Dashboard'],
+		image: flipflopOverviewImage.src,
 	},
 ];
+import flipflopOverviewImage from '../assets/portfolio/flipflop-overview.png';
+import shoraImage from '../assets/portfolio/shora.png';
