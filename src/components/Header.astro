@@ -1,13 +1,20 @@
 ---
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import { Image } from 'astro:assets';
+import cafineMark from '../assets/brand/cafine-mark.png';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <header>
 	<nav>
-		<h2><a href={`${base}/`}>{SITE_TITLE}</a></h2>
+		<h2>
+			<a class="brand" href={`${base}/`}>
+				<Image class="brand-icon" src={cafineMark} alt="" width={28} height={28} format="webp" loading="eager" decoding="sync" />
+				{SITE_TITLE}
+			</a>
+		</h2>
 		<div class="internal-links">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
@@ -30,11 +37,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <style>
 	header { margin: 0; padding: 0 1em; background: white; box-shadow: 0 2px 8px rgba(var(--black), 5%); }
-	h2 { margin: 0; font-size: 1em; }
+	h2 { margin: 0; flex-shrink: 0; font-size: 1em; }
 	h2 a, h2 a.active { text-decoration: none; }
+	.brand { display: inline-flex; align-items: center; gap: 0.45rem; }
+	.brand-icon { display: block; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 7px; object-fit: contain; transform: translateY(-2px); }
 	nav { display: flex; align-items: center; justify-content: space-between; }
 	nav a { padding: 1em 0.5em; color: var(--black); border-bottom: 4px solid transparent; text-decoration: none; }
 	nav a.active { text-decoration: none; border-bottom-color: var(--accent); }
 	.social-links, .social-links a { display: flex; }
 	@media (max-width: 720px) { .social-links { display: none; } }
+	@media (max-width: 560px) {
+		nav { flex-wrap: wrap; }
+		.brand { padding-block: 0.6rem; }
+		.internal-links { display: flex; order: 3; width: 100%; justify-content: center; }
+		.internal-links a { padding: 0.55rem 0.4rem; font-size: 0.9rem; }
+	}
 </style>
