@@ -1,3 +1,7 @@
+import type { ImageMetadata } from 'astro';
+import flipflopOverviewImage from '../assets/portfolio/flipflop-overview.png';
+import shoraImage from '../assets/portfolio/shora.png';
+
 export type PortfolioItem = {
 	title: string;
 	summary: string;
@@ -5,7 +9,7 @@ export type PortfolioItem = {
 	kind: string;
 	period: string;
 	tags: string[];
-	image?: string;
+	image?: ImageMetadata;
 };
 
 export const portfolioProfile = {
@@ -28,7 +32,7 @@ export const portfolioItems: PortfolioItem[] = [
 		kind: 'Live Commerce',
 		period: '2021.08 - 2022.02',
 		tags: ['JavaScript', 'WebSocket', 'jQuery', 'Performance'],
-		image: shoraImage.src,
+		image: shoraImage,
 	},
 	{
 		title: 'FlipFlop Lite',
@@ -38,8 +42,6 @@ export const portfolioItems: PortfolioItem[] = [
 		kind: 'B2B Video SaaS',
 		period: '2021.12 - 2023.02',
 		tags: ['Video SDK', 'WebSocket', 'DRM', 'SaaS Dashboard'],
-		image: flipflopOverviewImage.src,
+		image: flipflopOverviewImage,
 	},
 ];
-import flipflopOverviewImage from '../assets/portfolio/flipflop-overview.png';
-import shoraImage from '../assets/portfolio/shora.png';
