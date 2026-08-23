@@ -1,5 +1,2 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
-
 export const SITE_TITLE = 'Cafine Blog';
-export const SITE_DESCRIPTION = 'GPU Architecture Lab - Vulkan과 GPU 구조에 대한 기술 블로그';
+export const SITE_DESCRIPTION = '프론트엔드 개발자의 실전 프로젝트와 그래픽스 탐구 기록';

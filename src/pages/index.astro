@@ -8,17 +8,11 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-
-// Group posts by category
 const postsByCategory = posts.reduce((acc, post) => {
 	const category = post.data.category || 'Uncategorized';
-	if (!acc[category]) {
-		acc[category] = [];
-	}
-	acc[category].push(post);
+	(acc[category] ??= []).push(post);
 	return acc;
 }, {} as Record<string, typeof posts>);
-
 const categories = Object.keys(postsByCategory).sort();
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
@@ -28,75 +22,26 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
-			.post-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-				gap: 2rem;
-				margin-top: 2rem;
-			}
-			.post-card {
-				background: rgb(var(--gray-light));
-				border-radius: 8px;
-				padding: 1.5rem;
-				transition: transform 0.2s, box-shadow 0.2s;
-				border-left: 4px solid var(--accent);
-			}
-			.post-card:hover {
-				transform: translateY(-4px);
-				box-shadow: var(--box-shadow);
-			}
-			.post-card h3 {
-				margin-top: 0;
-				margin-bottom: 0.5rem;
-			}
-			.post-card a {
-				text-decoration: none;
-				color: rgb(var(--black));
-			}
-			.post-card a:hover {
-				color: var(--accent);
-			}
-			.post-meta {
-				font-size: 0.875rem;
-				color: rgb(var(--gray));
-				margin-bottom: 1rem;
-			}
-			.post-description {
-				color: rgb(var(--gray-dark));
-				margin-bottom: 1rem;
-				line-height: 1.6;
-			}
-			.post-tags {
-				display: flex;
-				gap: 0.5rem;
-				flex-wrap: wrap;
-			}
-			.tag {
-				display: inline-block;
-				background: var(--accent);
-				color: white;
-				padding: 0.25rem 0.75rem;
-				border-radius: 12px;
-				font-size: 0.75rem;
-				text-decoration: none;
-			}
-			.category-section {
-				margin-bottom: 3rem;
-			}
-			.category-title {
-				display: inline-block;
-				padding-bottom: 0.5rem;
-				border-bottom: 3px solid var(--accent);
-				margin-bottom: 2rem;
-			}
+			.post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
+			.post-card { padding: 1.5rem; border-left: 4px solid var(--accent); border-radius: 8px; background: rgb(var(--gray-light)); transition: transform 0.2s, box-shadow 0.2s; }
+			.post-card:hover { transform: translateY(-4px); box-shadow: var(--box-shadow); }
+			.post-card h3 { margin-top: 0; margin-bottom: 0.5rem; }
+			.post-card a { color: rgb(var(--black)); text-decoration: none; }
+			.post-card a:hover { color: var(--accent); }
+			.post-meta { margin-bottom: 1rem; color: rgb(var(--gray)); font-size: 0.875rem; }
+			.post-description { margin-bottom: 1rem; color: rgb(var(--gray-dark)); line-height: 1.6; }
+			.post-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+			.tag { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 12px; background: var(--accent); color: white; font-size: 0.75rem; text-decoration: none; }
+			.category-section { margin-bottom: 3rem; }
+			.category-title { display: inline-block; margin-bottom: 2rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--accent); }
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
 			<h1>Cafine Blog</h1>
-			<p>GPU 아키텍처와 컴퓨트 셰이더에 대한 기술 블로그입니다.</p>
-			
+			<p>프론트엔드 개발자의 기술 기록과 그래픽스 탐구를 담습니다.</p>
+
 			{posts.length > 0 ? (
 				<div>
 					{categories.map((category) => (
@@ -105,33 +50,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 							<div class="post-grid">
 								{postsByCategory[category].map((post) => (
 									<article class="post-card">
-										<h3>
-											<a href={`${base}/blog/${post.slug}/`}>{post.data.title}</a>
-										</h3>
-										<div class="post-meta">
-											{post.data.pubDate.toLocaleDateString('ko-KR', { 
-												year: 'numeric', 
-												month: 'long', 
-												day: 'numeric' 
-											})}
-										</div>
+										<h3><a href={`${base}/blog/${post.slug}/`}>{post.data.title}</a></h3>
+										<div class="post-meta">{post.data.pubDate.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
 										<p class="post-description">{post.data.description}</p>
-										{post.data.tags && post.data.tags.length > 0 && (
-											<div class="post-tags">
-												{post.data.tags.map((tag) => (
-													<span class="tag">{tag}</span>
-												))}
-											</div>
-										)}
+										{post.data.tags?.length > 0 && <div class="post-tags">{post.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div>}
 									</article>
 								))}
 							</div>
 						</section>
 					))}
 				</div>
-			) : (
-				<p>곧 포스트가 추가될 예정입니다.</p>
-			)}
+			) : <p>아직 게시된 글이 없습니다.</p>}
 		</main>
 		<Footer />
 	</body>
